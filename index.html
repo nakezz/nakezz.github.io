@@ -1,115 +1,588 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Mandala Altai</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="logo" href="index.html">Mandala Altai</a>
-      <nav class="main-nav" aria-label="Main navigation">
-        <a href="index.html">Home</a>
-        <a href="tours.html">Tours</a>
-        <a href="campus.html">Campus</a>
-        <a href="booking.html">Booking</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-      <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">☰</button>
-    </div>
-  </header>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandala Altai | Western Mongolia Expeditions</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-inner">
-        <h1>Discover Mongolia with Local Experts</h1>
-        <p>Carefully crafted tours, authentic food, comfortable bases, and easy booking.</p>
-        <div class="hero-cta">
-          <a class="btn" href="tours.html">See Tours</a>
-          <a class="btn btn-outline" href="booking.html">Book Now</a>
-        </div>
-      </div>
-    </section>
+    <!-- Custom Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-    <section class="overview container">
-      <h2>Our Highlights</h2>
-      <div class="grid grid-3">
-        <a class="card card-link" href="tours.html" aria-label="Find best tour for you.">
-        <img src="images/snowLeopard1.png" alt="Adventure Tours" loading="lazy">
-        <h3>Adventure Tours</h3>
-        <p>Find most existing tours.</p>
-        </a>
-       <!-- <article class="card">
-          <img src="images/tour1.jpg" alt="Horseback tour" loading="lazy">
-          <h3>Adventure Tours</h3>
-          <p>Horse trekking, desert camping, and outdoor challenges guided by locals.</p>
-        </article>-->
-        <a class="card card-link" href="campus.html" aria-label="Learn more about our campus">
-        <img src="images/campus1.jpg" alt="Comfortable base camp" loading="lazy">
-        <h3>Comfortable Campus</h3>
-        <p>Well-equipped base camps with warm facilities and local hospitality.</p>
-        </a>
-<!--
-        <article class="card">
-          <img src="images/campus1.jpg" alt="Comfortable base camp" loading="lazy">
-          <h3>Comfortable Campus</h3>
-          <p>Well-equipped base camps with warm facilities and local hospitality.</p>
-        </article>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
+        .fade-in-up { animation: fadeInUp 1s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .accordion-content { transition: max-height 0.3s ease-out, opacity 0.3s ease-out; max-height: 0; opacity: 0; overflow: hidden; }
+        .accordion-content.active { max-height: 500px; opacity: 1; }
+        .icon-rotate { transition: transform 0.3s; }
+        .accordion-btn.active .icon-rotate { transform: rotate(180deg); }
         
-        <article class="card">
-          <img src="images/food1.jpg" alt="Traditional food" loading="lazy">
-          <h3>Authentic Food</h3>
-          <p>Healthy, local meals prepared with fresh ingredients and traditional recipes.</p>
-        </article>-->
-      </div>
-    </section>
-<!--
-    <section class="featured container">
-      <h2>Featured Tours</h2>
-      <div class="grid grid-2">
-        <div class="tour-feature">
-          <img src="images/tour2.jpg" alt="Landscape" loading="lazy">
-          <div>
-            <h3>Golden Steppe Explorer — 7 days</h3>
-            <p>Explore pristine steppe, meet nomad families, and ride across wide-open plains.</p>
-            <a class="link" href="tours.html">Learn more</a>
-          </div>
-        </div>
+        /* Loading Spinner */
+        .loader { border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #1e3a8a; width: 20px; height: 20px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-blue-200 selection:text-blue-900 bg-slate-50">
 
-        <div class="tour-feature">
-          <img src="images/tour3.jpg" alt="Desert camp" loading="lazy">
-          <div>
-            <h3>Gobi Sunset Adventure — 4 days</h3>
-            <p>Witness vast dunes, fossil sites, and camp beneath the stars.</p>
-            <a class="link" href="tours.html">Learn more</a>
-          </div>
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <div class="flex items-center space-x-2 group cursor-pointer">
+                <i class="ph-fill ph-mountains text-3xl group-hover:rotate-12 transition-transform"></i>
+                <span class="text-2xl font-bold tracking-tighter">MANDALA ALTAI</span>
+            </div>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#home" class="nav-link text-sm font-medium tracking-wide uppercase hover:text-blue-400 transition-colors">Home</a>
+                <a href="#tours" class="nav-link text-sm font-medium tracking-wide uppercase hover:text-blue-400 transition-colors">Tours</a>
+                <!-- About link removed as requested -->
+                <a href="#contact" class="nav-link text-sm font-medium tracking-wide uppercase hover:text-blue-400 transition-colors">Contact</a>
+                <button onclick="toggleModal()" class="book-btn px-5 py-2 rounded-full text-sm font-bold uppercase tracking-wider transition-all transform hover:scale-105 bg-white text-blue-900 hover:bg-blue-50">
+                    Book Now
+                </button>
+            </div>
+            <button onclick="toggleMobileMenu()" class="md:hidden text-2xl">
+                <i class="ph ph-list" id="menu-icon"></i>
+            </button>
         </div>
-      </div>
-    </section>
--->
-    <section class="quick-contact container">
-      <h2>Ready to travel?</h2>
-      <p>Contact us to tailor a tour to your needs or reserve your spot right away.</p>
-      <a class="btn" href="contact.html">Contact Us</a>
-    </section>
-  </main>
+        <div id="mobile-menu" class="hidden md:hidden bg-white absolute top-full left-0 w-full shadow-xl border-t border-gray-100 text-slate-800">
+            <div class="flex flex-col p-4 space-y-4">
+                <a href="#home" onclick="toggleMobileMenu()" class="font-medium py-2 border-b border-gray-100">Home</a>
+                <a href="#tours" onclick="toggleMobileMenu()" class="font-medium py-2 border-b border-gray-100">Tours</a>
+                <!-- About link removed as requested -->
+                <a href="#contact" onclick="toggleMobileMenu()" class="font-medium py-2 border-b border-gray-100">Contact</a>
+                <button onclick="toggleModal(); toggleMobileMenu()" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold uppercase">
+                    Book Now
+                </button>
+            </div>
+        </div>
+    </nav>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div>
-        <strong>Mandala Altai</strong>
-        <p>Bringing authentic Mongolian experiences to curious travelers.</p>
-      </div>
-      <div>
-        <p><strong>Address</strong><br>Bayan-Ulgii, Mongolia</p>
-        <p><strong>Email</strong><br><a href="mailto:info@nomadtrails.example">mandalaaltai@gmail.com</a></p>
-      </div>
+    <!-- Hero Section -->
+    <header id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="snow leopard walking.png" alt="Altai Mountains" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-900/80"></div>
+        </div>
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto fade-in-up">
+            <div class="inline-block mb-4 px-4 py-1 border border-white/30 rounded-full bg-white/10 backdrop-blur-sm">
+                <span class="text-blue-200 text-sm font-semibold tracking-wider uppercase">Western Mongolia Expeditions</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+                Track the Ghost of the <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white">Mountains</span>
+            </h1>
+            <p class="text-xl text-gray-200 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+                Join Mandala Altai on an exclusive 7-day expedition into the heart of the Altai Mountains to observe the elusive Snow Leopard in its natural habitat.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="toggleModal()" class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-lg transition-all transform hover:-translate-y-1 shadow-lg shadow-blue-900/50 flex items-center justify-center gap-2">
+                    <i class="ph-bold ph-calendar-check"></i>
+                    Reserve Your Spot
+                </button>
+                <a href="#tours" class="px-8 py-4 bg-transparent border-2 border-white/30 hover:bg-white/10 text-white rounded-lg font-bold text-lg transition-all flex items-center justify-center gap-2 backdrop-blur-sm">
+                    View Itinerary
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-white/50">
+            <i class="ph-bold ph-caret-down text-3xl"></i>
+        </div>
+    </header>
+
+    <!-- Stats Section -->
+    <section class="bg-slate-900 text-white py-12 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="p-4"><div class="text-3xl md:text-4xl font-bold text-blue-400 mb-2">3</div><div class="text-sm text-gray-400 uppercase tracking-wider">Years Experience</div></div>
+            <div class="p-4"><div class="text-3xl md:text-4xl font-bold text-blue-400 mb-2">100+</div><div class="text-sm text-gray-400 uppercase tracking-wider">Tours Completed</div></div>
+            <div class="p-4"><div class="text-3xl md:text-4xl font-bold text-blue-400 mb-2">100%</div><div class="text-sm text-gray-400 uppercase tracking-wider">Local Guides</div></div>
+            <div class="p-4"><div class="text-3xl md:text-4xl font-bold text-blue-400 mb-2">High</div><div class="text-sm text-gray-400 uppercase tracking-wider">Sightings Rate</div></div>
+        </div>
+    </section>
+
+    <!-- Tours Section -->
+    <section id="tours" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-blue-900 font-bold tracking-wide uppercase text-sm mb-2">Current Expedition</h2>
+                <h3 class="text-4xl font-bold text-slate-900">Snow Leopard Observation Tour</h3>
+                <div class="w-24 h-1 bg-blue-600 mx-auto mt-6 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                <div class="space-y-8">
+                    <div class="bg-white rounded-2xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100">
+                        <div class="flex flex-wrap gap-4 mb-6">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold flex items-center gap-1"><i class="ph-bold ph-clock"></i> 7 Days</span>
+                            <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-semibold flex items-center gap-1"><i class="ph-bold ph-map-pin"></i> Western Mongolia</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold flex items-center gap-1"><i class="ph-bold ph-camera"></i> Photography</span>
+                        </div>
+                        <p class="text-slate-600 leading-relaxed mb-6">
+                            Venture into the rugged majesty of the Altai Mountains. This specialized tour is designed for wildlife enthusiasts and photographers. Working with expert local trackers, we navigate the high ridges to find the "Ghost of the Mountains" while experiencing the nomadic Kazakh culture.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="bg-slate-50 p-4 rounded-lg"><h4 class="font-bold text-slate-900 mb-1">Group Size</h4><p class="text-sm text-slate-600">Small groups (Max 4)</p></div>
+                            <div class="bg-slate-50 p-4 rounded-lg"><h4 class="font-bold text-slate-900 mb-1">Season</h4><p class="text-sm text-slate-600">Nov - April</p></div>
+                            <div class="bg-slate-50 p-4 rounded-lg"><h4 class="font-bold text-slate-900 mb-1">Accommodation</h4><p class="text-sm text-slate-600">Heated Gers & Camp</p></div>
+                            <div class="bg-slate-50 p-4 rounded-lg"><h4 class="font-bold text-slate-900 mb-1">Transport</h4><p class="text-sm text-slate-600">4x4 Land Cruisers</p></div>
+                        </div>
+                        <div class="flex items-end justify-between border-t pt-6">
+                            <div><p class="text-slate-400 text-sm font-medium uppercase">Starting from</p><p class="text-3xl font-bold text-blue-900">$$$$ <span class="text-base font-normal text-slate-500">/ person</span></p></div>
+                            <button onclick="toggleModal()" class="px-6 py-3 bg-blue-900 text-white rounded-lg font-semibold hover:bg-blue-800 transition-colors">Request Dates</button>
+                        </div>
+                    </div>
+                    <div class="hidden lg:grid grid-cols-2 gap-4">
+                        <img src="snowLeopardCam2.jpg" alt="Leopard" class="rounded-xl h-48 w-full object-cover shadow-lg hover:scale-[1.02] transition-transform duration-500">
+                        <img src="snowLeopardCam1.jpg" alt="Ger Camp" class="rounded-xl h-48 w-full object-cover shadow-lg hover:scale-[1.02] transition-transform duration-500">
+                    </div>
+                </div>
+
+                <!-- Accordion Itinerary (Shortened for brevity, use same structure as before) -->
+                <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden">
+                    <div class="bg-slate-900 p-6 text-white">
+                        <h4 class="text-xl font-bold">Itinerary Breakdown</h4>
+                        <p class="text-slate-400 text-sm mt-1">A journey to the roof of the world</p>
+                    </div>
+                    <div class="divide-y divide-slate-100" id="itinerary-container">
+                         <!-- Day 1 -->
+                         <div class="accordion-item">
+                            <button class="accordion-btn w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-colors text-left focus:outline-none">
+                                <div class="flex items-center gap-4"><span class="day-badge flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-blue-100 text-blue-900">1</span><span class="font-bold text-slate-800">Arrival in Ulgii</span></div>
+                                <i class="ph-bold ph-caret-down icon-rotate text-slate-400"></i>
+                            </button>
+                            <div class="accordion-content"><div class="px-4 pb-4 pl-[4.5rem] text-slate-600 text-sm leading-relaxed">Fly from Ulaanbaatar to Ulgii. Meet your Mandala Altai guide. Transfer to local hotel. Welcome dinner with traditional Kazakh music.</div></div>
+                        </div>
+                        <!-- Day 2 -->
+                        <div class="accordion-item">
+                            <button class="accordion-btn w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-colors text-left focus:outline-none">
+                                <div class="flex items-center gap-4"><span class="day-badge flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-blue-100 text-blue-900">2</span><span class="font-bold text-slate-800">Journey to Base Camp</span></div>
+                                <i class="ph-bold ph-caret-down icon-rotate text-slate-400"></i>
+                            </button>
+                            <div class="accordion-content"><div class="px-4 pb-4 pl-[4.5rem] text-slate-600 text-sm leading-relaxed">Drive through the majestic Altai landscape (approx 4-5 hours). Setup at our winter base camp located in a prime snow leopard habitat valley.</div></div>
+                        </div>
+                        <!-- Day 3 -->
+                        <div class="accordion-item">
+                            <button class="accordion-btn w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-colors text-left focus:outline-none">
+                                <div class="flex items-center gap-4"><span class="day-badge flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-blue-100 text-blue-900">3</span><span class="font-bold text-slate-800">Tracking the Ghost</span></div>
+                                <i class="ph-bold ph-caret-down icon-rotate text-slate-400"></i>
+                            </button>
+                            <div class="accordion-content"><div class="px-4 pb-4 pl-[4.5rem] text-slate-600 text-sm leading-relaxed">Full day of observation. Our expert trackers scan the ridges. We use high-powered spotting scopes. Photography opportunities.</div></div>
+                        </div>
+                        <!-- Day 4 -->
+                        <div class="accordion-item">
+                            <button class="accordion-btn w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-colors text-left focus:outline-none">
+                                <div class="flex items-center gap-4"><span class="day-badge flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-blue-100 text-blue-900">4</span><span class="font-bold text-slate-800">High Ridge Observation</span></div>
+                                <i class="ph-bold ph-caret-down icon-rotate text-slate-400"></i>
+                            </button>
+                            <div class="accordion-content"><div class="px-4 pb-4 pl-[4.5rem] text-slate-600 text-sm leading-relaxed">We move to a higher vantage point. This area is known for leopard activity. Lunch in the field.</div></div>
+                        </div>
+                         <!-- Day 5 -->
+                         <div class="accordion-item">
+                            <button class="accordion-btn w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-colors text-left focus:outline-none">
+                                <div class="flex items-center gap-4"><span class="day-badge flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-blue-100 text-blue-900">5</span><span class="font-bold text-slate-800">The Valley of Cats</span></div>
+                                <i class="ph-bold ph-caret-down icon-rotate text-slate-400"></i>
+                            </button>
+                            <div class="accordion-content"><div class="px-4 pb-4 pl-[4.5rem] text-slate-600 text-sm leading-relaxed">Explore a neighboring valley. Visit a local herder family winter camp to understand human-wildlife conflict and coexistence.</div></div>
+                        </div>
+                         <!-- Day 6 -->
+                         <div class="accordion-item">
+                            <button class="accordion-btn w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-colors text-left focus:outline-none">
+                                <div class="flex items-center gap-4"><span class="day-badge flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-blue-100 text-blue-900">6</span><span class="font-bold text-slate-800">Cultural Immersion</span></div>
+                                <i class="ph-bold ph-caret-down icon-rotate text-slate-400"></i>
+                            </button>
+                            <div class="accordion-content"><div class="px-4 pb-4 pl-[4.5rem] text-slate-600 text-sm leading-relaxed">Drive back towards Ulgii. Visit a Golden Eagle Hunter's family. Farewell dinner.</div></div>
+                        </div>
+                         <!-- Day 7 -->
+                         <div class="accordion-item">
+                            <button class="accordion-btn w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-colors text-left focus:outline-none">
+                                <div class="flex items-center gap-4"><span class="day-badge flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm bg-blue-100 text-blue-900">7</span><span class="font-bold text-slate-800">Departure</span></div>
+                                <i class="ph-bold ph-caret-down icon-rotate text-slate-400"></i>
+                            </button>
+                            <div class="accordion-content"><div class="px-4 pb-4 pl-[4.5rem] text-slate-600 text-sm leading-relaxed">Transfer to Ulgii airport for your flight back to Ulaanbaatar.</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-white relative overflow-hidden">
+        <div class="absolute right-0 top-0 h-full w-1/3 bg-slate-50 skew-x-12 translate-x-20 z-0"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="md:w-1/2">
+                    <div class="relative">
+                        <div class="absolute -top-4 -left-4 w-24 h-24 bg-blue-100 rounded-full -z-10"></div>
+                        <img src="restaurant.jpg" alt="Eagle Hunter" class="rounded-2xl shadow-2xl w-full object-cover h-[500px]">
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-blue-900 font-bold tracking-wide uppercase text-sm mb-2">About Mandala Altai</h2>
+                    <h3 class="text-4xl font-bold text-slate-900 mb-6">Locally Rooted, Globally Connected</h3>
+                    <p class="text-slate-600 mb-6 leading-relaxed">
+                        Mandala Altai is more than a tour company; we are the bridge to Western Mongolia. Founded by locals from Ulgii, we specialize in authentic, low-impact tourism that benefits our community and protects our wildlife.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-3 text-slate-700">
+                            <i class="ph-fill ph-check-circle text-green-600 text-xl"></i>
+                            Expert Local Guides fluent in English, Kazakh and Mongolian
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-700">
+                            <i class="ph-fill ph-check-circle text-green-600 text-xl"></i>
+                            Support for Snow Leopard Conservation Funds
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-700">
+                            <i class="ph-fill ph-check-circle text-green-600 text-xl"></i>
+                            Authentic Nomad Homestays
+                        </li>
+                        <li class="flex items-center gap-3 text-slate-700">
+                            <i class="ph-fill ph-check-circle text-green-600 text-xl"></i>
+                            Safety First approach in extreme environments
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-slate-900 text-slate-300 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+                <div>
+                    <div class="flex items-center space-x-2 mb-6 text-white"><i class="ph-fill ph-mountains text-2xl"></i><span class="text-xl font-bold">MANDALA ALTAI</span></div>
+                    <p class="text-slate-400 leading-relaxed mb-6">Premium adventure travel in Western Mongolia. Specialists in wildlife tracking, photography tours, and cultural immersion.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-lg mb-6">Contact Us</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3"><i class="ph-fill ph-map-pin text-blue-500 mt-1"></i><span>Ulgii City, Bayan-Ulgii Province,<br/>Mongolia</span></li>
+                        <li class="flex items-center gap-3"><i class="ph-fill ph-phone text-blue-500"></i><span>+976 9942 XXXX</span></li>
+                        <li class="flex items-center gap-3"><i class="ph-fill ph-envelope text-blue-500"></i><span>info@mandalaaltai.com</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <button id="admin-toggle-btn" class="text-blue-400 hover:text-white underline text-sm">Admin</button>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 text-center text-sm text-slate-500"><p>&copy; 2024 Mandala Altai Travel. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <!-- ADMIN DASHBOARD (Hidden by default) -->
+    <div id="admin-panel" class="hidden fixed inset-0 z-[60] bg-white overflow-y-auto">
+        <div class="max-w-7xl mx-auto p-8">
+            <div class="flex justify-between items-center mb-8 border-b pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">Admin Dashboard</h2>
+                <button id="close-admin" class="px-4 py-2 bg-slate-200 rounded-lg hover:bg-slate-300 font-bold">Close</button>
+            </div>
+            <div class="bg-blue-50 p-4 rounded-lg mb-8 border border-blue-100">
+                <p class="text-blue-900 font-bold">Incoming Bookings</p>
+                <p class="text-sm text-blue-700">Real-time data from Firestore.</p>
+            </div>
+            
+            <div class="overflow-x-auto shadow-xl rounded-lg border border-slate-200">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-100 text-slate-600 uppercase text-xs font-bold">
+                        <tr>
+                            <th class="p-4 border-b">Date Received</th>
+                            <th class="p-4 border-b">Customer Name</th>
+                            <th class="p-4 border-b">Email</th>
+                            <th class="p-4 border-b">Month</th>
+                            <th class="p-4 border-b">Pax</th>
+                            <th class="p-4 border-b">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookings-table-body" class="bg-white text-sm text-slate-700">
+                        <!-- Data injected here -->
+                    </tbody>
+                </table>
+                <div id="loading-bookings" class="p-8 text-center hidden">
+                    <div class="loader mx-auto mb-2"></div>
+                    <span class="text-slate-500">Fetching bookings...</span>
+                </div>
+                <div id="no-bookings" class="p-8 text-center hidden text-slate-500">
+                    No bookings found.
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="copyright">© <span id="year"></span>Mandala Altai</div>
-  </footer>
 
-  <script src="script.js"></script>
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="relative z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-slate-900 bg-opacity-75 transition-opacity backdrop-blur-sm" onclick="toggleModal()"></div>
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-2xl leading-6 font-bold text-slate-900">Book Your Expedition</h3>
+                            <button onclick="toggleModal()" class="text-slate-400 hover:text-slate-600"><i class="ph-bold ph-x text-xl"></i></button>
+                        </div>
+                        <p class="text-sm text-slate-500 mb-6">Fill out the form below. We will contact you soon via email.</p>
+                        <form id="bookingForm" class="space-y-4">
+                            <div><label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label><input type="text" id="name" class="w-full px-4 py-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" required></div>
+                            <div><label class="block text-sm font-medium text-slate-700 mb-1">Email</label><input type="email" id="email" class="w-full px-4 py-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" required></div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div><label class="block text-sm font-medium text-slate-700 mb-1">Month</label><select id="month" class="w-full px-4 py-2 border border-slate-300 rounded-lg outline-none bg-white"><option>November</option><option>December</option><option>January</option><option>February</option><option>March</option><option>April</option></select></div>
+                                <div><label class="block text-sm font-medium text-slate-700 mb-1">Travelers</label><input type="number" id="travelers" min="1" max="4" value="2" class="w-full px-4 py-2 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"></div>
+                            </div>
+                            <div><label class="block text-sm font-medium text-slate-700 mb-1">Message</label><textarea id="message" class="w-full px-4 py-2 border border-slate-300 rounded-lg outline-none h-24"></textarea></div>
+                            <button type="submit" id="submitBtn" class="w-full bg-blue-900 text-white font-bold py-3 rounded-lg hover:bg-blue-800 transition-colors flex justify-center items-center gap-2">
+                                <span>Send Inquiry</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIC: Firebase + UI -->
+    <script type="module">
+        // Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+
+        // ==========================================
+        // CONFIGURATION SECTION
+        // ==========================================
+        
+        let firebaseConfig;
+        let appId;
+
+        // CHECK: Are we in the AI Preview Environment?
+        if (typeof __firebase_config !== 'undefined') {
+             firebaseConfig = JSON.parse(__firebase_config);
+             appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        } else {
+             // -----------------------------------------------------------
+             // !!! PASTE YOUR FIREBASE CONFIG HERE FOR LOCAL COMPUTER USE !!!
+             // -----------------------------------------------------------
+             
+             firebaseConfig = {
+                apiKey: "AIzaSyCLZcJ6DAaWhx1btRU5tlGW4LCatrkCmvI",
+                authDomain: "mandala-altai.firebaseapp.com",
+                projectId: "mandala-altai",
+                storageBucket: "mandala-altai.firebasestorage.app",
+                messagingSenderId: "589776427342",
+                appId: "1:589776427342:web:b73a9c73507a86335de61f",
+                measurementId: "G-27YLFSG241"
+             };
+             // We use your project ID as the 'appId' for the database path so data stays organized
+             appId = 'mandala-altai'; 
+        }
+
+        // Initialize Firebase
+        let app, db, auth;
+        try {
+            app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app); // Initialized Analytics
+            db = getFirestore(app);
+            auth = getAuth(app);
+            
+            // Sign in anonymously to allow database access
+            signInAnonymously(auth).then(() => {
+                console.log("Connected to Firebase!");
+            }).catch((error) => {
+                console.error("Auth Error:", error);
+            });
+
+        } catch (e) {
+            console.error("Firebase Init Failed. Did you paste the config?", e);
+            if(window.location.protocol === 'file:') {
+                alert("Error: Firebase Config missing. Please edit the index.html file and paste your Firebase keys where indicated.");
+            }
+        }
+
+        // ==========================================
+        // BOOKING LOGIC
+        // ==========================================
+        
+        const bookingForm = document.getElementById('bookingForm');
+        
+        bookingForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<div class="loader border-white border-t-transparent"></div> Sending...';
+            submitBtn.disabled = true;
+
+            try {
+                // Get data
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    month: document.getElementById('month').value,
+                    travelers: document.getElementById('travelers').value,
+                    message: document.getElementById('message').value,
+                    submittedAt: Timestamp.now()
+                };
+
+                // SAVE TO FIREBASE
+                // Path: artifacts/{appId}/public/data/bookings
+                // We use 'public' here so the Admin panel in this simple HTML file can read it.
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), formData);
+
+                alert("Booking received! We have saved your request to the database.");
+                toggleModal();
+                bookingForm.reset();
+
+            } catch (error) {
+                console.error("Error saving booking: ", error);
+                alert("Error saving booking. Check console for details.");
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+
+        // ==========================================
+        // ADMIN PANEL LOGIC
+        // ==========================================
+
+        const adminBtn = document.getElementById('admin-toggle-btn');
+        const adminPanel = document.getElementById('admin-panel');
+        const closeAdminBtn = document.getElementById('close-admin');
+        const bookingsTableBody = document.getElementById('bookings-table-body');
+        const loadingDiv = document.getElementById('loading-bookings');
+        const noBookingsDiv = document.getElementById('no-bookings');
+
+        adminBtn.addEventListener('click', async () => {
+            // Simple security for demo purposes
+            const password = prompt("Admin");
+            if (password !== 'livewithyourownlife') {
+                alert("Incorrect password.");
+                return;
+            }
+
+            adminPanel.classList.remove('hidden');
+            loadBookings();
+        });
+
+        closeAdminBtn.addEventListener('click', () => {
+            adminPanel.classList.add('hidden');
+        });
+
+        async function loadBookings() {
+            bookingsTableBody.innerHTML = '';
+            loadingDiv.classList.remove('hidden');
+            noBookingsDiv.classList.add('hidden');
+
+            try {
+                // FETCH FROM FIREBASE
+                // We fetch the same collection we saved to
+                const bookingsRef = collection(db, 'artifacts', appId, 'public', 'data', 'bookings');
+                // Note: Complex queries like orderBy require creating an index in Firebase Console.
+                // We will fetch all and sort in JS to avoid index creation errors for you.
+                const querySnapshot = await getDocs(bookingsRef);
+                
+                const bookings = [];
+                querySnapshot.forEach((doc) => {
+                    bookings.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Sort by date (newest first)
+                bookings.sort((a, b) => b.submittedAt.seconds - a.submittedAt.seconds);
+
+                if (bookings.length === 0) {
+                    noBookingsDiv.classList.remove('hidden');
+                } else {
+                    bookings.forEach(booking => {
+                        const date = new Date(booking.submittedAt.seconds * 1000).toLocaleDateString() + ' ' + new Date(booking.submittedAt.seconds * 1000).toLocaleTimeString();
+                        
+                        const row = `
+                            <tr class="border-b hover:bg-slate-50 transition-colors">
+                                <td class="p-4 text-slate-500 whitespace-nowrap">${date}</td>
+                                <td class="p-4 font-bold text-slate-900">${booking.name || '-'}</td>
+                                <td class="p-4 text-blue-600">${booking.email || '-'}</td>
+                                <td class="p-4"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-bold uppercase">${booking.month}</span></td>
+                                <td class="p-4 text-center">${booking.travelers}</td>
+                                <td class="p-4 text-slate-500 italic max-w-xs truncate">${booking.message || ''}</td>
+                            </tr>
+                        `;
+                        bookingsTableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                }
+
+            } catch (error) {
+                console.error("Error fetching bookings:", error);
+                alert("Could not load bookings. Check console.");
+            } finally {
+                loadingDiv.classList.add('hidden');
+            }
+        }
+
+        // ==========================================
+        // UI HELPERS (Global Scope)
+        // ==========================================
+        window.toggleModal = function() {
+            const modal = document.getElementById('bookingModal');
+            modal.classList.toggle('hidden');
+        };
+
+        window.toggleMobileMenu = function() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.classList.remove('ph-list');
+                icon.classList.add('ph-x');
+            } else {
+                menu.classList.add('hidden');
+                icon.classList.remove('ph-x');
+                icon.classList.add('ph-list');
+            }
+        };
+
+        // Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const bookBtn = navbar.querySelector('.book-btn');
+            
+            if (window.scrollY > 50) {
+                navbar.classList.remove('bg-transparent', 'text-white', 'py-6');
+                navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-lg', 'py-2', 'text-slate-900');
+                navLinks.forEach(l => l.classList.replace('text-white/90', 'text-slate-600'));
+                bookBtn.classList.replace('text-blue-900', 'text-white');
+                bookBtn.classList.replace('bg-white', 'bg-blue-900');
+            } else {
+                navbar.classList.add('bg-transparent', 'text-white', 'py-6');
+                navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-lg', 'py-2', 'text-slate-900');
+                navLinks.forEach(l => l.classList.replace('text-slate-600', 'text-white/90'));
+                bookBtn.classList.replace('text-white', 'text-blue-900');
+                bookBtn.classList.replace('bg-blue-900', 'bg-white');
+            }
+        });
+
+        // Accordion
+        document.querySelectorAll('.accordion-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const badge = button.querySelector('.day-badge');
+                button.classList.toggle('active');
+                content.classList.toggle('active');
+                if (content.classList.contains('active')) {
+                    badge.classList.replace('bg-blue-100', 'bg-blue-900');
+                    badge.classList.replace('text-blue-900', 'text-white');
+                } else {
+                    badge.classList.replace('bg-blue-900', 'bg-blue-100');
+                    badge.classList.replace('text-white', 'text-blue-900');
+                }
+            });
+        });
+
+    </script>
 </body>
 </html>
