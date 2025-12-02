@@ -433,7 +433,7 @@
                 // We use 'public' here so the Admin panel in this simple HTML file can read it.
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'bookings'), formData);
 
-                alert("Booking received! We have saved your request to the database.");
+                alert("Booking received! We will contact you soon via email.");
                 toggleModal();
                 bookingForm.reset();
 
@@ -586,3 +586,4 @@
     </script>
 </body>
 </html>
+
